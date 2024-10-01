@@ -28,3 +28,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::resource('admin/suppliers', SupplierController::class);
     // Tambahkan route admin lainnya
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
