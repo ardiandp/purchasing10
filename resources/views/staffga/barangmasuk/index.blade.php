@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Barang Masuk') }}</div>
+                <div class="card-header d-flex justify-content-between">
+                    {{ __('Barang Masuk') }}
+                    <a href="{{ route('admin.barangmasukcreate') }}" class="btn btn-sm btn-success">Tambah Barang Masuk</a>
+                </div>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -45,6 +48,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $barangMasuk->onEachSide(1)->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>

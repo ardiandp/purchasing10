@@ -33,11 +33,28 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     
     //barangmasuk
     Route::get('admin/barangmasuk', [BarangMasukController::class,'index'])->name('admin.barangmasuk');
-    Route::get('admin/barangmasuk/create', [BarangMasukController::class,'create'])->name('admin.barangmasuk.create');
+    //Route::get('admin/barangmasuk', [BarangMasukController::class,'barangkeluar'])->name('admin.barangkeluar');
+    Route::get('admin/barangmasuk/create', [BarangMasukController::class,'create'])->name('admin.barangmasukcreate');
     Route::get('admin/barangmasuk/edit', [BarangMasukController::class,'edit'])->name('admin.barangmasuk.edit');
     Route::delete('admin/barangmasuk/destroy', [BarangMasukController::class,'destroy'])->name('admin.barangmasuk.destroy');
     
-    Route::resource('admin/barang', BarangController::class);
+    //crud barang master
+    Route::get('admin/barang', [BarangController::class,'index'])->name('admin.barang');
+    Route::get('admin/barang/create', [BarangController::class,'create'])->name('admin.barang.create');
+    Route::post('admin/barang/store', [BarangController::class,'store'])->name('admin.barang.store');
+    Route::get('admin/barang/edit/{id}', [BarangController::class,'edit'])->name('admin.barang.edit');
+    Route::put('admin/barang/update/{id}', [BarangController::class,'update'])->name('admin.barang.update');
+    Route::delete('admin/barang/destroy/{id}', [BarangController::class,'destroy'])->name('admin.barang.destroy');
+
+    //CRUD USER 
+    //CRUD USER 
+    Route::get('admin/users', [UserController::class,'index'])->name('admin.users');
+    Route::get('admin/users/create', [UserController::class,'create'])->name('admin.users.create');
+    Route::post('admin/users/store', [UserController::class,'store'])->name('admin.users.store');
+    Route::get('admin/users/edit/{id}', [UserController::class,'edit'])->name('admin.users.edit');
+    Route::put('admin/users/update/{id}', [UserController::class,'update'])->name('admin.users.update');
+    Route::delete('admin/users/destroy/{id}', [UserController::class,'destroy'])->name('admin.users.destroy');
+
     Route::resource('admin/users', UserController::class);
     Route::resource('admin/suppliers', SupplierController::class);
     // Tambahkan route admin lainnya
