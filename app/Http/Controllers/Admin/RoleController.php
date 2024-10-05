@@ -4,19 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Role;
-class UserController extends Controller
+
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $users = User::paginate(10);
-        $roles = Role::all();
-        return view('admin.user.index', compact('users', 'roles'));
+        $roles = Role::paginate(10);
+        return view('admin.role.index', compact('roles'));
     }
 
     /**
@@ -32,23 +30,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id'
+            'role_name' => 'required|string|max:255|unique:roles',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role_id' => $request->role_id
-        ]);
+        Role::create(['role_name' => $request->role_name]);
 
-        return redirect()->route('master-users')
-                         ->with('success', 'User berhasil dibuat.');
+        return redirect()->route('master-roles')
+                         ->with('success', 'Role berhasil dibuat.');
+
     }
 
     /**
@@ -78,10 +68,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $id)
+    public function destroy(string $id)
     {
-        $id->delete();
-        return redirect()->route('master-users')
-                         ->with('success', 'User berhasil dihapus.');
+        //
     }
 }

@@ -5,7 +5,39 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Daftar Divisi') }}</div>
+                <div class="card-header d-flex justify-content-between">
+                    {{ __('Daftar Divisi') }}
+                    <button type="button" class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#exampleModal">
+                        Tambah Divisi
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Tambah Divisi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ route('admin.divisi.store') }}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="nama_divisi">Nama Divisi</label>
+                                            <input type="text" class="form-control" id="nama_divisi" name="nama_divisi" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
 
                 <div class="card-body">
                     @if (session('success'))
@@ -14,12 +46,12 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('admin.divisi.create') }}" class="btn btn-primary mb-3">Tambah Divisi</a>
+                    
 
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Nama Divisi</th>
                                 <th>Actions</th>
                             </tr>
@@ -27,7 +59,7 @@
                         <tbody>
                             @foreach($divisi as $d)
                             <tr>
-                                <td>{{ $d->id }}</td>
+                                <td>{{ ($divisi->currentPage() - 1) * $divisi->perPage() + $loop->iteration }}</td>
                                 <td>{{ $d->nama_divisi }}</td>
                                 <td>
                                     <a href="{{ route('admin.divisi.edit', $d->id) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -41,6 +73,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $divisi->onEachSide(1)->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

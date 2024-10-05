@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\BarangMasukController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DivisiController;
+use App\Http\Controllers\Admin\RoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,9 +28,10 @@ Route::get('/', function () {
 // Route untuk Admin
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('admin/divisi', [DivisiController::class,'index'])->name('admin.divisi');
+    Route::post('admin/divisi/store', [DivisiController::class,'store'])->name('admin.divisi.store');
     Route::get('admin/divisi/create', [DivisiController::class,'create'])->name('admin.divisi.create');
     Route::get('admin/divisi/edit', [DivisiController::class,'edit'])->name('admin.divisi.edit');
-    Route::delete('admin/divisi/destroy', [DivisiController::class,'destroy'])->name('admin.divisi.destroy');
+    Route::delete('admin/divisi/destroy/{id}', [DivisiController::class,'destroy'])->name('admin.divisi.destroy');
     
     //barangmasuk
     Route::get('admin/barangmasuk', [BarangMasukController::class,'index'])->name('admin.barangmasuk');
@@ -46,15 +48,23 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::put('admin/barang/update/{id}', [BarangController::class,'update'])->name('admin.barang.update');
     Route::delete('admin/barang/destroy/{id}', [BarangController::class,'destroy'])->name('admin.barang.destroy');
 
+ 
     //CRUD USER 
-    //CRUD USER 
-    Route::get('admin/users', [UserController::class,'index'])->name('admin.users');
+    Route::get('master-users', [UserController::class,'index'])->name('master-users');
     Route::get('admin/users/create', [UserController::class,'create'])->name('admin.users.create');
     Route::post('admin/users/store', [UserController::class,'store'])->name('admin.users.store');
     Route::get('admin/users/edit/{id}', [UserController::class,'edit'])->name('admin.users.edit');
     Route::put('admin/users/update/{id}', [UserController::class,'update'])->name('admin.users.update');
     Route::delete('admin/users/destroy/{id}', [UserController::class,'destroy'])->name('admin.users.destroy');
 
+     //CRUD ROLE
+    Route::get('master-roles', [RoleController::class,'index'])->name('master-roles');
+    Route::get('admin/roles/create', [RoleController::class,'createRole'])->name('admin.roles.create');
+    Route::post('admin/roles/store', [RoleController::class,'storeRole'])->name('admin.roles.store');
+    Route::get('admin/roles/edit/{id}', [RoleController::class,'editRole'])->name('admin.roles.edit');
+    Route::put('admin/roles/update/{id}', [RoleController::class,'updateRole'])->name('admin.roles.update');
+    Route::delete('admin/roles/destroy/{id}', [RoleController::class,'destroyRole'])->name('admin.roles.destroy');
+    
     Route::resource('admin/users', UserController::class);
     Route::resource('admin/suppliers', SupplierController::class);
     // Tambahkan route admin lainnya

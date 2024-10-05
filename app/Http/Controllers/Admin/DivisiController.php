@@ -13,7 +13,7 @@ class DivisiController extends Controller
      */
     public function index()
     {
-        $divisi = Divisi::all();
+        $divisi = Divisi::latest()->paginate(10);
         return view('admin.divisi.index', compact('divisi'))
             ->with('url_create', route('admin.divisi'));
     }
@@ -37,7 +37,7 @@ class DivisiController extends Controller
 
         Divisi::create($request->all());
 
-        return redirect()->route('admin.divisi.index')
+        return redirect()->route('admin.divisi')
                          ->with('success', 'Divisi berhasil dibuat.');
     }
 
@@ -77,9 +77,10 @@ class DivisiController extends Controller
      */
     public function destroy(string $id)
     {
+        $divisi = Divisi::findOrFail($id);
         $divisi->delete();
 
-        return redirect()->route('admin.divisi.index')
+        return redirect()->route('admin.divisi')
                          ->with('success', 'Divisi berhasil dihapus.');
     }
 }
