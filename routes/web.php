@@ -37,8 +37,9 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('admin/barangmasuk', [BarangMasukController::class,'index'])->name('admin.barangmasuk');
     //Route::get('admin/barangmasuk', [BarangMasukController::class,'barangkeluar'])->name('admin.barangkeluar');
     Route::get('admin/barangmasuk/create', [BarangMasukController::class,'create'])->name('admin.barangmasukcreate');
+    Route::post('admin/barangmasuk/store', [BarangMasukController::class,'store'])->name('admin.barangmasuk.store');
     Route::get('admin/barangmasuk/edit', [BarangMasukController::class,'edit'])->name('admin.barangmasuk.edit');
-    Route::delete('admin/barangmasuk/destroy', [BarangMasukController::class,'destroy'])->name('admin.barangmasuk.destroy');
+    Route::delete('admin/barangmasuk/destroy/{id}', [BarangMasukController::class,'destroy'])->name('admin.barangmasuk.destroy');
     
     //crud barang master
     Route::get('admin/barang', [BarangController::class,'index'])->name('admin.barang');
@@ -65,6 +66,16 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::put('admin/roles/update/{id}', [RoleController::class,'updateRole'])->name('admin.roles.update');
     Route::delete('admin/roles/destroy/{id}', [RoleController::class,'destroyRole'])->name('admin.roles.destroy');
     
+ 
+    //CRUD Supplier
+    Route::get('suppliers', [SupplierController::class,'index'])->name('suppliers');
+    Route::get('admin/suppliers/create', [SupplierController::class,'create'])->name('admin.suppliers.create');
+    Route::post('admin/suppliers/store', [SupplierController::class,'store'])->name('admin.suppliers.store');
+    Route::get('admin/suppliers/edit/{id}', [SupplierController::class,'edit'])->name('admin.suppliers.edit');
+    Route::put('admin/suppliers/update/{id}', [SupplierController::class,'update'])->name('admin.suppliers.update');
+    Route::delete('admin/suppliers/destroy/{id}', [SupplierController::class,'destroy'])->name('admin.suppliers.destroy');
+    
+
     Route::resource('admin/users', UserController::class);
     Route::resource('admin/suppliers', SupplierController::class);
     // Tambahkan route admin lainnya

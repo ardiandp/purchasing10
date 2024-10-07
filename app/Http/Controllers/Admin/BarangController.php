@@ -22,7 +22,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.barang.create');
     }
 
     /**
@@ -30,7 +30,25 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'kategori' => 'nullable|string|max:255',
+            'stok_awal' => 'required|integer',
+            'satuan' => 'required|string|max:255',
+        ]);
+
+        $barang = Barang::create([
+            'nama_barang' => $request->nama_barang,
+            'kategori' => $request->kategori,
+            'stok_awal' => $request->stok_awal,
+            'satuan' => $request->satuan,
+        ]);
+
+        if ($barang) {
+            return redirect()->route('admin.barang')->with('success', 'Barang ditambahkan');
+        }
+
+        return redirect()->back()->with('error', 'Barang gagal ditambahkan');
     }
 
     /**

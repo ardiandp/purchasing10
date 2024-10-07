@@ -1,9 +1,9 @@
-@extends('layouts.staffga')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <h1>Tambah Barang Masuk</h1>
-    <a href="{{ route('staff-ga.barang-masuk.index') }}" class="btn btn-secondary mb-3">Kembali</a>
+    <a href="{{ route('admin.barangmasuk') }}" class="btn btn-secondary mb-3">Kembali</a>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form action="{{ route('staff-ga.barang-masuk.store') }}" method="POST">
+    <form action="{{ route('admin.barangmasuk.store') }}" method="POST">
         @csrf
 
         <div class="form-group">
@@ -46,7 +46,7 @@
 
         <div class="form-group">
             <label for="tanggal_masuk">Tanggal Masuk</label>
-            <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control" required>
+            <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control" required value="{{ date('Y-m-d') }}">
         </div>
 
         <button type="submit" class="btn btn-success mt-3">Simpan</button>

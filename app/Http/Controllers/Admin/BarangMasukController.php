@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\BarangMasuk;
 use App\Models\Barang;
 use App\Models\Supplier;
+use App\Models\StokBarang;
+
+
+use Illuminate\Support\Facades\DB;
 
 class BarangMasukController extends Controller
 {
@@ -44,8 +48,39 @@ class BarangMasukController extends Controller
         $stokBarang->stok_terakhir += $request->jumlah;
         $stokBarang->save();
 
-        return redirect()->route('staff-ga.barang-masuk.index')
+        return redirect()->route('admin.barangmasuk')
                          ->with('success', 'Barang Masuk berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $barangMasuk = BarangMasuk::find($id);
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        return view('staffga.barangmasuk.edit', compact('barangMasuk', 'barang', 'supplier'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'barang_id' => 'required|exists:barang,id',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'jumlah' => 'required|integer|min:1',
+            'tanggal_masuk' => 'required|date',
+        ]);
+
+        $barangMasuk = BarangMasuk::find($id);
+        $barangMasuk->update($request->all());
+        return redirect()->route('admin.barangmasuk')
+                         ->with('success', 'Barang Masuk berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $barangMasuk = BarangMasuk::find($id);
+        $barangMasuk->delete();
+        return redirect()->route('admin.barangmasuk')
+                         ->with('success', 'Barang Masuk berhasil dihapus.');
     }
 
 }
