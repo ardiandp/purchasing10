@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\StokBarang;
+use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
 {
@@ -94,4 +96,12 @@ class BarangController extends Controller
         $barang->delete();
         return redirect()->route('admin.barang')->with('success', 'Barang dihapus');
     }
+
+    public function stokbarang()
+    {
+       $stokBarangs = StokBarang::paginate(10);
+       return view('admin.barang.stok', compact('stokBarangs'));
+    }
+
+
 }

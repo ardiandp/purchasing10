@@ -41,6 +41,7 @@
                             <a class="dropdown-item" href="{{ url('admin/users') }}">USER</a>
                             <a class="dropdown-item" href="{{ route('master-roles') }}">ROLE</a>
                             <a class="dropdown-item" href="{{ route('admin.barang') }}">BARANG</a>
+                            <a class="dropdown-item" href="{{ route('admin.barang.stok') }}">STOk BARANG</a>
                             <a class="dropdown-item" href="{{ route('suppliers') }}">SUPPLIER</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a>
@@ -50,7 +51,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTransaksi" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STAF GA</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownTransaksi">
                             <a class="dropdown-item" href="{{ route('admin.barangmasuk') }}">BARANG MASUK</a>
-                            <a class="dropdown-item" href="">BARANG KELUAR</a>
+                            <a class="dropdown-item" href="{{ route('admin.barangkeluar') }}">BARANG KELUAR</a>
                         </div>
                     </li>
                 </ul>

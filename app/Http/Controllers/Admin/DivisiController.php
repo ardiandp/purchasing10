@@ -54,7 +54,7 @@ class DivisiController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.divisi.edit', compact('divisi'));
+        
     }
 
     /**
@@ -66,9 +66,10 @@ class DivisiController extends Controller
             'nama_divisi' => 'required|string|max:255',
         ]);
 
+        $divisi = Divisi::findOrFail($id);
         $divisi->update($request->all());
 
-        return redirect()->route('admin.divisi.index')
+        return redirect()->route('admin.divisi')
                          ->with('success', 'Divisi berhasil diperbarui.');
     }
 

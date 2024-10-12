@@ -28,7 +28,30 @@
                                 <td>{{ ($roles->currentPage() - 1) * $roles->perPage() + $loop->iteration }}</td>
                                 <td>{{ $role->role_name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $role->id }}">Edit</button>
+                                    <div class="modal fade" id="editModal{{ $role->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="form-group">
+                                                            <label for="role_name">Role Name</label>
+                                                            <input type="text" class="form-control" id="role_name" name="role_name" value="{{ $role->role_name }}" required>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -54,7 +77,10 @@
                             <label for="role_name">Role Name</label>
                             <input type="text" class="form-control" id="role_name" name="role_name" required>
                         </div>
+                        <br>
+                        <div class="form-group">
                         <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>  
                     </form>
                 </div>
             </div>

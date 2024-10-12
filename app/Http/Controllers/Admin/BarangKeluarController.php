@@ -4,17 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Role;
+use App\Models\Barangkeluar;
+use App\Models\Divisi;
+use Illuminate\Support\Facades\DB;
 
-class RoleController extends Controller
+class BarangKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $roles = Role::paginate(10);
-        return view('admin.role.index', compact('roles'));
+        $barangkeluar = DB::table('barang_keluar')
+            ->join('divisi', 'barang_keluar.divisi_id', '=', 'divisi.id')
+            ->join('barang', 'barang_keluar.barang_id', '=', 'barang.id')
+            ->select('barang_keluar.*', 'divisi.nama_divisi as nama_divisi', 'barang.nama_barang as nama_barang')
+            ->paginate(10);
+
+        return view('staffga.barangkeluar.index', compact('barangkeluar'));
     }
 
     /**
@@ -30,15 +37,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'role_name' => 'required|string|max:255|unique:roles',
-        ]);
-
-        Role::create(['role_name' => $request->role_name]);
-
-        return redirect()->route('master-roles')
-                         ->with('success', 'Role berhasil dibuat.');
-
+        //
     }
 
     /**
@@ -62,14 +61,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'role_name' => 'required|string|max:255|unique:roles',
-        ]);
-
-        $role = Role::find($id);
-        $role->update(['role_name' => $request->role_name]);
-        return redirect()->route('master-roles')
-                         ->with('success', 'Role diupdate.');
+        //
     }
 
     /**
@@ -77,9 +69,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        $role = Role::find($id);
-        $role->delete();
-        return redirect()->route('master-roles')
-                         ->with('success', 'Role di hapus.');
+        //
     }
 }

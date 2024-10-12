@@ -6,6 +6,7 @@ use App\Http\Controllers\StaffGAController;
 use App\Http\Controllers\HeadGAController;
 use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\BarangMasukController;
+use App\Http\Controllers\Admin\BarangKeluarController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DivisiController;
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('admin/divisi', [DivisiController::class,'index'])->name('admin.divisi');
     Route::post('admin/divisi/store', [DivisiController::class,'store'])->name('admin.divisi.store');
     Route::get('admin/divisi/create', [DivisiController::class,'create'])->name('admin.divisi.create');
-    Route::get('admin/divisi/edit', [DivisiController::class,'edit'])->name('admin.divisi.edit');
+    Route::put('admin/divisi/update/{id}', [DivisiController::class,'update'])->name('admin.divisi.update');
     Route::delete('admin/divisi/destroy/{id}', [DivisiController::class,'destroy'])->name('admin.divisi.destroy');
     
     //barangmasuk
@@ -41,6 +42,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('admin/barangmasuk/edit', [BarangMasukController::class,'edit'])->name('admin.barangmasuk.edit');
     Route::delete('admin/barangmasuk/destroy/{id}', [BarangMasukController::class,'destroy'])->name('admin.barangmasuk.destroy');
     
+    // Barang Keluar 
+    Route::get('admin/barangkeluar', [BarangKeluarController::class,'index'])->name('admin.barangkeluar');
+    Route::get('admin/barangkeluar/create', [BarangkeluarController::class,'createBarangKeluar'])->name('admin.barangkeluarcreate');
+    Route::post('admin/barangkeluar/store', [BarangkeluarController::class,'storeBarangKeluar'])->name('admin.barangkeluar.store');
+    Route::get('admin/barangkeluar/edit', [BarangkeluarController::class,'editBarangKeluar'])->name('admin.barangkeluar.edit');
+    Route::delete('admin/barangkeluar/destroy/{id}', [BarangkeluarController::class,'destroyBarangKeluar'])->name('admin.barangkeluar.destroy');
+    
     //crud barang master
     Route::get('admin/barang', [BarangController::class,'index'])->name('admin.barang');
     Route::get('admin/barang/create', [BarangController::class,'create'])->name('admin.barang.create');
@@ -48,6 +56,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('admin/barang/edit/{id}', [BarangController::class,'edit'])->name('admin.barang.edit');
     Route::put('admin/barang/update/{id}', [BarangController::class,'update'])->name('admin.barang.update');
     Route::delete('admin/barang/destroy/{id}', [BarangController::class,'destroy'])->name('admin.barang.destroy');
+    //stok barang 
+    Route::get('admin/barang/stok', [BarangController::class,'stokbarang'])->name('admin.barang.stok');
 
  
     //CRUD USER 
@@ -61,10 +71,9 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
      //CRUD ROLE
     Route::get('master-roles', [RoleController::class,'index'])->name('master-roles');
     Route::get('admin/roles/create', [RoleController::class,'createRole'])->name('admin.roles.create');
-    Route::post('admin/roles/store', [RoleController::class,'storeRole'])->name('admin.roles.store');
-    Route::get('admin/roles/edit/{id}', [RoleController::class,'editRole'])->name('admin.roles.edit');
-    Route::put('admin/roles/update/{id}', [RoleController::class,'updateRole'])->name('admin.roles.update');
-    Route::delete('admin/roles/destroy/{id}', [RoleController::class,'destroyRole'])->name('admin.roles.destroy');
+    Route::post('admin/roles/store', [RoleController::class,'store'])->name('admin.roles.store');
+    Route::put('admin/roles/update/{id}', [RoleController::class,'update'])->name('admin.roles.update');
+    Route::delete('admin/roles/destroy/{id}', [RoleController::class,'destroy'])->name('admin.roles.destroy');
     
  
     //CRUD Supplier
