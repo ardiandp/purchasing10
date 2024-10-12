@@ -64,7 +64,8 @@ class BarangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $barang = Barang::find($id);
+        return view('admin.barang.edit', compact('barang'));
     }
 
     /**
@@ -72,7 +73,16 @@ class BarangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'kategori' => 'nullable|string|max:255',
+            'stok_awal' => 'required|integer',
+            'satuan' => 'required|string|max:255',
+        ]);
+
+        $barang = Barang::find($id);
+        $barang->update($request->all());
+        return redirect()->route('admin.barang')->with('success', 'Barang diperbarui');
     }
 
     /**
@@ -80,6 +90,8 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barang = Barang::find($id);
+        $barang->delete();
+        return redirect()->route('admin.barang')->with('success', 'Barang dihapus');
     }
 }

@@ -45,7 +45,13 @@ class BarangMasukController extends Controller
         $barang->save();
 
         $stokBarang = $barang->stokBarang;
-        $stokBarang->stok_terakhir += $request->jumlah;
+        if ($stokBarang) {
+            $stokBarang->stok_terakhir += $request->jumlah;
+        } else {
+            $stokBarang = new StokBarang();
+            $stokBarang->barang_id = $request->barang_id;
+            $stokBarang->stok_terakhir = $request->jumlah;
+        }
         $stokBarang->save();
 
         return redirect()->route('admin.barangmasuk')

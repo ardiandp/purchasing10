@@ -59,7 +59,8 @@ class SupplierController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $supplier = Supplier::find($id);
+        return view('admin.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -67,7 +68,16 @@ class SupplierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_supplier' => 'required|string|max:255',
+            'alamat' => 'nullable|string|max:255',
+            'telepon' => 'nullable|string|max:255',
+        ]);
+
+        $supplier = Supplier::find($id);
+        $supplier->update($request->all());
+        return redirect()->route('suppliers')
+                         ->with('success', 'Supplier berhasil diperbarui.');
     }
 
     /**

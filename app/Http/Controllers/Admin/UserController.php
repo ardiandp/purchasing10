@@ -64,7 +64,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::all();
+        return view('admin.user.edit', compact('user','roles'));
+
     }
 
     /**
@@ -72,7 +75,18 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+           // 'password' => 'required|string|min:8|confirmed',
+            'role_id' => 'required|exists:roles,id'
+        ]);
+
+        $user = User::find($id);
+        $user->update($request->all());
+
+        return redirect()->route('master-users')
+                         ->with('success', 'User berhasil diperbarui.');
     }
 
     /**
