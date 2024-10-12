@@ -28,6 +28,7 @@ Route::get('/', function () {
 
 // Route untuk Admin
 Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('admin/divisi', [DivisiController::class,'index'])->name('admin.divisi');
     Route::post('admin/divisi/store', [DivisiController::class,'store'])->name('admin.divisi.store');
     Route::get('admin/divisi/create', [DivisiController::class,'create'])->name('admin.divisi.create');
@@ -90,6 +91,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     // Tambahkan route admin lainnya
 });
 
+// Route untuk Divi
+Route::middleware(['auth', 'role:Divisi'])->group(function () {
+    Route::get('/homedivisi', [App\Http\Controllers\HomeController::class, 'homedivisi'])->name('homedivisi');
+});
+
+
+
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
