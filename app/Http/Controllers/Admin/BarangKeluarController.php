@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barangkeluar;
 use App\Models\Divisi;
+use App\Models\Barang;
 use Illuminate\Support\Facades\DB;
 
 class BarangKeluarController extends Controller
@@ -29,7 +30,9 @@ class BarangKeluarController extends Controller
      */
     public function create()
     {
-        //
+        $divisi = Divisi::all();
+        $barang = Barang::all();
+        return view('staffga.barangkeluar.create', compact('divisi','barang'));
     }
 
     /**
@@ -37,7 +40,23 @@ class BarangKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'divisi_id' => 'required',
+            'barang_id' => 'required',
+            'jumlah' => 'required',
+            'tanggal_keluar' => 'required',
+        ]);
+
+        $barangkeluar = new Barangkeluar();
+        $barangkeluar->divisi_id = $request->divisi_id;
+        $barangkeluar->barang_id = $request->barang_id;
+        $barangkeluar->jumlah = $request->jumlah;
+        $barangkeluar->tanggal_keluar = $request->tanggal_keluar;
+        $barangkeluar->save();
+
+        return redirect()->route('admin.barangkeluar')->with('success', 'Data berhasil ditambahkan');
+
+        
     }
 
     /**
@@ -69,6 +88,9 @@ class BarangKeluarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barangkeluar = Barangkeluar::findOrFail($id);
+        $barangkeluar->delete();
+
+        return redirect()->route('barangkeluar.index')->with('success', 'Data berhasil dihapus');
     }
 }

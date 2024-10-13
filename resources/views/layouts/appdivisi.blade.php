@@ -38,8 +38,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTransaksi" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">TRANSAKSI</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownTransaksi">
-                            <a class="dropdown-item" href="{{ route('admin.barangmasuk') }}">Request Barang</a>
-                            <a class="dropdown-item" href="{{ route('admin.barangkeluar') }}">BARANG KELUAR</a>
+                            <a class="dropdown-item" href="{{ route('divisi.requestbarang') }}">Request Barang</a>
+                            <a class="dropdown-item" href="">BARANG KELUAR</a>
                         </div>
                     </li>
                 </ul>

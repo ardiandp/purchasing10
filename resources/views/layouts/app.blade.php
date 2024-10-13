@@ -52,6 +52,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownTransaksi">
                             <a class="dropdown-item" href="{{ route('admin.barangmasuk') }}">BARANG MASUK</a>
                             <a class="dropdown-item" href="{{ route('admin.barangkeluar') }}">BARANG KELUAR</a>
+                            <a class="dropdown-item" href="{{ route('staffga.requestbarang') }}">Request Barang</a>
                         </div>
                     </li>
                 </ul>
@@ -83,7 +84,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->name }} ({{ Auth::user()->role->role_name }})
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

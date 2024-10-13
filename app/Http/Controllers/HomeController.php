@@ -21,13 +21,30 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index() // home admin
     {
-        return view('home');
+        return view('home'); 
     }
 
     public function homedivisi()
     {
         return view('homedivisi');
     }
+
+    public function homesupplier()
+    {
+        return view('homesupplier');
+    }
+
+    public function homeheadga()
+    {
+        return view ('homeheadga');
+    }
+
+    public function homestaffga()
+    {
+        return view ('homestaffga');
+    }
+
+
 }

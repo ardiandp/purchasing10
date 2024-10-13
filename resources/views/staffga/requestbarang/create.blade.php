@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Tambah Barang Keluar</h1>
-    <a href="{{ route('admin.barangkeluar') }}" class="btn btn-secondary mb-3">Kembali</a>
+    <h1>Tambah Request Barang</h1>
+    <a href="{{ route('staffga.requestbarang') }}" class="btn btn-secondary mb-3">Kembali</a>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.barangkeluar.store') }}" method="POST">
+    <form action="{{ route('staffga.requestbarang.store') }}" method="POST">
         @csrf
 
         <div class="form-group">
@@ -45,8 +45,12 @@
         </div>
 
         <div class="form-group">
-            <label for="tanggal_keluar">Tanggal Keluar</label>
-            <input type="date" name="tanggal_keluar" id="tanggal_keluar" class="form-control" required value="{{ date('Y-m-d') }}">
+            <label for="status">Status</label>
+            <select name="status" id="status" class="form-control" required>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-success mt-3">Simpan</button>

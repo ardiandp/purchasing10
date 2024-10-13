@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DivisiController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RequestBarangController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,8 +46,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     
     // Barang Keluar 
     Route::get('admin/barangkeluar', [BarangKeluarController::class,'index'])->name('admin.barangkeluar');
-    Route::get('admin/barangkeluar/create', [BarangkeluarController::class,'createBarangKeluar'])->name('admin.barangkeluarcreate');
-    Route::post('admin/barangkeluar/store', [BarangkeluarController::class,'storeBarangKeluar'])->name('admin.barangkeluar.store');
+    Route::get('admin/barangkeluar/create', [BarangkeluarController::class,'create'])->name('admin.barangkeluar.create');
+    Route::post('admin/barangkeluar/store', [BarangkeluarController::class,'store'])->name('admin.barangkeluar.store');
     Route::get('admin/barangkeluar/edit', [BarangkeluarController::class,'editBarangKeluar'])->name('admin.barangkeluar.edit');
     Route::delete('admin/barangkeluar/destroy/{id}', [BarangkeluarController::class,'destroyBarangKeluar'])->name('admin.barangkeluar.destroy');
     
@@ -59,6 +60,14 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::delete('admin/barang/destroy/{id}', [BarangController::class,'destroy'])->name('admin.barang.destroy');
     //stok barang 
     Route::get('admin/barang/stok', [BarangController::class,'stokbarang'])->name('admin.barang.stok');
+
+    // Request Barang
+    Route::get('staffga/requestbarang', [RequestBarangController::class,'index'])->name('staffga.requestbarang');
+    Route::get('staffga/requestbarang/create', [RequestBarangController::class,'create'])->name('staffga.requestbarang.create');
+    Route::post('staffga/requestbarang/store', [RequestBarangController::class,'store'])->name('staffga.requestbarang.store');
+    Route::get('staffga/requestbarang/edit/{id}', [RequestBarangController::class,'edit'])->name('staffga.requestbarang.edit');
+    Route::put('staffga/requestbarang/update/{id}', [RequestBarangController::class,'update'])->name('staffga.requestbarang.update');
+    Route::delete('staffga/requestbarang/destroy/{id}', [RequestBarangController::class,'destroy'])->name('staffga.requestbarang.destroy');
 
  
     //CRUD USER 
@@ -91,9 +100,20 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     // Tambahkan route admin lainnya
 });
 
-// Route untuk Divi
+// Route untuk Divisi
 Route::middleware(['auth', 'role:Divisi'])->group(function () {
     Route::get('/homedivisi', [App\Http\Controllers\HomeController::class, 'homedivisi'])->name('homedivisi');
+    Route::get('divisi/requestbarang', [RequestBarangController::class,'index'])->name('divisi.requestbarang');
+});
+
+// Route untuk Staff GA
+Route::middleware(['auth', 'role:StaffGA'])->group(function () {
+    Route::get('/homestaffga', [App\Http\Controllers\HomeController::class, 'homestaffga'])->name('homestaffga');
+});
+
+// Route untuk Head GA
+Route::middleware(['auth', 'role:HeadGA'])->group(function () {
+    Route::get('/homeheadga', [App\Http\Controllers\HomeController::class, 'homeheadga'])->name('homeheadga');
 });
 
 
