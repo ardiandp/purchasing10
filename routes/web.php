@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DivisiController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RequestBarangController;
+use App\Http\Controllers\Admin\MenuController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +70,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::put('staffga/requestbarang/update/{id}', [RequestBarangController::class,'update'])->name('staffga.requestbarang.update');
     Route::delete('staffga/requestbarang/destroy/{id}', [RequestBarangController::class,'destroy'])->name('staffga.requestbarang.destroy');
 
+    //CRUD Menu
+    Route::get('master-menus', [MenuController::class,'index'])->name('master-menus');
+    Route::get('admin/menus/create', [MenuController::class,'create'])->name('admin.menus.create');
+    Route::post('admin/menus/store', [MenuController::class,'store'])->name('admin.menus.store');
+    Route::get('admin/menus/edit/{id}', [MenuController::class,'edit'])->name('admin.menus.edit');
+    Route::put('admin/menus/update/{id}', [MenuController::class,'update'])->name('admin.menus.update');
+    Route::delete('admin/menus/destroy/{id}', [MenuController::class,'destroy'])->name('admin.menus.destroy');
  
     //CRUD USER 
     Route::get('master-users', [UserController::class,'index'])->name('master-users');
@@ -125,3 +133,19 @@ Auth::routes();
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//CRUD Menu
+Route::get('master-menus', [MenuController::class,'index'])->name('admin.menu');
+Route::get('admin/menus/create', [MenuController::class,'create'])->name('admin.menus.create');
+Route::post('admin/menus/store', [MenuController::class,'store'])->name('admin.menus.store');
+Route::get('admin/menus/edit/{id}', [MenuController::class,'edit'])->name('admin.menus.edit');
+Route::put('admin/menus/update/{id}', [MenuController::class,'update'])->name('admin.menus.update');
+Route::delete('admin/menus/destroy/{id}', [MenuController::class,'destroy'])->name('admin.menus.destroy');
+
+
+//CRUD Menu Role
+Route::get('admin/menus/role', [MenuController::class,'menuRole'])->name('admin.menusrole');
+//Route::get('admin/menus/role/create', [MenuController::class,'createMenuRole'])->name('admin.menus.role.create');
+Route::post('admin/menus/role/store', [MenuController::class,'menurolestore'])->name('admin.menus.rolestore');
+//Route::get('admin/menus/role/edit/{id}', [MenuController::class,'editMenuRole'])->name('admin.menus.role.edit');
+Route::put('admin/menus/role/update/{id}', [MenuController::class,'menuroleupdate'])->name('admin.menus.roleupdate');
+Route::delete('admin/menus/role/destroy/{id}', [MenuController::class,'menuroledestroy'])->name('admin.menus.roledestroy');

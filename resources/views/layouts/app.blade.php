@@ -31,31 +31,22 @@
                 </a>
 
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">HOME</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MASTER</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('admin.divisi') }}">DIVISI</a>
-                            <a class="dropdown-item" href="{{ url('admin/users') }}">USER</a>
-                            <a class="dropdown-item" href="{{ route('master-roles') }}">ROLE</a>
-                            <a class="dropdown-item" href="{{ route('admin.barang') }}">BARANG</a>
-                            <a class="dropdown-item" href="{{ route('admin.barang.stok') }}">STOk BARANG</a>
-                            <a class="dropdown-item" href="{{ route('suppliers') }}">SUPPLIER</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTransaksi" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STAF GA</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownTransaksi">
-                            <a class="dropdown-item" href="{{ route('admin.barangmasuk') }}">BARANG MASUK</a>
-                            <a class="dropdown-item" href="{{ route('admin.barangkeluar') }}">BARANG KELUAR</a>
-                            <a class="dropdown-item" href="{{ route('staffga.requestbarang') }}">Request Barang</a>
-                        </div>
-                    </li>
-                </ul>
+    @foreach ($menus as $menu)
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $menu->id }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ $menu->name }}
+            </a>
+            @if ($menu->children->count())
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $menu->id }}">
+                    @foreach ($menu->children as $child)
+                        <a class="dropdown-item" href="{{ $child->url }}">{{ $child->name }}</a>
+                    @endforeach
+                </div>
+            @endif
+        </li>
+    @endforeach
+</ul>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
