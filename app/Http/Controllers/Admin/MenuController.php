@@ -12,7 +12,7 @@ use App\Models\MenuRole;
 
 class MenuController extends Controller
 {
-   public static function getMenusByRole()
+  /* public static function getMenusByRole()
     {
         $role = Auth::user()->role;  // Ambil role user yang login
         return Menu::whereHas('roles', function ($query) use ($role) {
@@ -22,11 +22,14 @@ class MenuController extends Controller
         ->with('children')
         ->orderBy('ordering')
         ->paginate(10);
-    } 
+    } */
 
     public function index()
     {
-        $menus = $this->getMenusByRole();
+        $menus = Menu::whereNull('parent_id')
+            ->with('children')
+            ->orderBy('ordering')
+            ->paginate(10);
         return view('admin.menu.index', compact('menus'));
     }
 
@@ -55,24 +58,35 @@ class MenuController extends Controller
         return view('admin.menu.edit', compact('menu', 'roles', 'menus'));
     }
 
-    public function update(Request $request, Menu $menu )
+    public function update(Request $request, string $id)
+{
+    // Validasi input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'url' => 'nullable|string|max:255',
+        'parent_id' => 'nullable|exists:menus,id',
+    ]);
+
+    // Temukan menu berdasarkan ID
+    $menu = Menu::findOrFail($id);
+
+    // Update data menu
+    $menu->name = $request->name;
+    $menu->url = $request->url;
+    $menu->parent_id = $request->parent_id ?? null;
+
+    // Simpan perubahan
+    $menu->save();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('admin.menu')
+                     ->with('success', 'Menu berhasil diperbarui.');
+}
+
+
+    public function destroy(string $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'url' => 'required',
-        ]);
-
-        $menu->name = $request->name;
-        $menu->url = $request->url;
-        $menu->parent_id = $request->parent_id ?? null;
-        $menu->save();
-
-        return redirect()->route('admin.menu')
-                         ->with('success', 'Menu berhasil diperbarui.');
-    }
-
-    public function destroy(Menu $menu)
-    {
+        $menu = Menu::findOrFail($id);
         $menu->delete();
         return redirect()->route('admin.menu')
                          ->with('success', 'Menu berhasil dihapus.');
@@ -117,8 +131,9 @@ class MenuController extends Controller
                          ->with('success', 'Menu role berhasil diperbarui.');
     }
 
-    public function menuroledestroy(MenuRole $menu_role)
+    public function menuroledestroy(string $id)
     {
+        $menu_role = MenuRole::findOrFail($id);
         $menu_role->delete();
         return redirect()->route('admin.menusrole')
                          ->with('success', 'Menu role berhasil dihapus.');

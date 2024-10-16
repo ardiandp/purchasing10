@@ -19,6 +19,12 @@ class BarangController extends Controller
         return view('admin.barang.index', compact('barangs'));
     }
 
+    public function staffga()
+    {
+        $barangs = Barang::paginate(10);
+        return view('staffga.barang.index', compact('barangs'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

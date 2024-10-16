@@ -37,7 +37,7 @@
                                             <select name="parent_id" id="parent_id" class="form-control">
                                                 <option value="">-- Pilih Parent --</option>
                                                 @foreach($menus as $menu)
-                                                    <option value="{{ $menu->id }}">{{ $menu->name }}</option>
+                                                    <option value="{{ $menu->id }}" style="background-color: #fff;">{{ $menu->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -57,18 +57,24 @@
                         <div class="alert alert-success" role="alert">
                             {{ session('success') }}
                         </div>
-                    @endif
+                    @endif                   
 
-                    
-
-                    <ul class="list-group list-group-flush">
-                        @foreach($menus as $menu)
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        {{ $menu->nama_menu }}
-                                    </div>
-                                    <div class="col-md-2">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Menu</th>
+                                <th>URL</th>
+                                <th>Parent</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($menus as $menu)
+                                <tr style="background-color: #fff;">
+                                    <td>{{ $menu->name }}</td>
+                                    <td>{{ $menu->url }}</td>
+                                    <td>{{ $menu->parent->name ?? 'Tidak ada parent' }}</td>
+                                    <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $menu->id }}">
                                             Edit
                                         </button>
@@ -89,7 +95,7 @@
                                                         <div class="modal-body">
                                                             <div class="form-group">
                                                                 <label for="nama_menu">Nama Menu</label>
-                                                                <input type="text" class="form-control" id="nama_menu" name="nama_menu" required value="{{ $menu->name }}">
+                                                                <input type="text" class="form-control" id="nama_menu" name="name" required value="{{ $menu->name }}">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="url">URL</label>
@@ -118,81 +124,73 @@
                                             @method('DELETE')
                                             <button type="submit" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-danger btn-sm">Delete</button>
                                         </form>
-                                    </div>
-                                </div>
-                                @if(count($menu->children))
-                                    <ul class="list-group list-group-flush mt-2">
-                                        @foreach($menu->children as $submenu)
-                                            <li class="list-group-item">
-                                                <div class="row">
-                                                    <div class="col-md-10">
-                                                        {{ $submenu->name }}
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $submenu->id }}">
-                                                            Edit
-                                                        </button>
+                                    </td>
+                                </tr>
+                                @foreach($menu->children as $child)
+                                    <tr style="background-color: #ddd;">
+                                        <td>{{ $child->name }}</td>
+                                        <td>{{ $child->url }}</td>
+                                        <td>{{ $child->parent->name ?? 'Tidak ada parent' }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal{{ $child->id }}">
+                                                Edit
+                                            </button>
 
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="editModal{{ $submenu->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Menu</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <form action="{{ route('admin.menus.update', $submenu->id) }}" method="POST">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <div class="modal-body">
-                                                                            <div class="form-group">
-                                                                                <label for="nama_menu">Nama Menu</label>
-                                                                                <input type="text" class="form-control" id="nama_menu" name="nama_menu" required value="{{ $submenu->name }}">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="url">URL</label>
-                                                                                <input type="text" class="form-control" id="url" name="url" required value="{{ $submenu->url }}">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="parent_id">Parent</label>
-                                                                                <select name="parent_id" id="parent_id" class="form-control">
-                                                                                    <option value="">-- Pilih Parent --</option>
-                                                                                    @foreach($menus as $menu3)
-                                                                                        <option value="{{ $menu3->id }}" {{ $submenu->parent_id == $menu3->id ? 'selected' : '' }}>{{ $menu3->name }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                                                        </div>
-                                                                    </form>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editModal{{ $child->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit Menu</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action="{{ route('admin.menus.update', $child->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="nama_menu">Nama Menu</label>
+                                                                    <input type="text" class="form-control" id="nama_menu" name="name" required value="{{ $child->name }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="url">URL</label>
+                                                                    <input type="text" class="form-control" id="url" name="url" required value="{{ $child->url }}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="parent_id">Parent</label>
+                                                                    <select name="parent_id" id="parent_id" class="form-control">
+                                                                        <option value="">-- Pilih Parent --</option>
+                                                                        @foreach($menus as $menu2)
+                                                                            <option value="{{ $menu2->id }}" {{ $child->parent_id == $menu2->id ? 'selected' : '' }}>{{ $menu2->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <form action="{{ route('admin.menus.destroy', $submenu->id) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-danger btn-sm">Delete</button>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
+                                            </div>
+                                            <form action="{{ route('admin.menus.destroy', $child->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
-
 

@@ -6,8 +6,8 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    {{ __('Request Barang') }}
-                    <a href="{{ route('staffga.requestbarang.create') }}" class="btn btn-sm btn-success">Tambah Request Barang</a>
+                    {{ __('Master Barang') }}
+                    <a href="{{ route('admin.barang.create') }}" class="btn btn-sm btn-success">Tambah Barang Masuk</a>
                 </div>
 
                 <div class="card-body">
@@ -21,24 +21,24 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Divisi</th>
-                                <th>Barang</th>
-                                <th>Jumlah</th>
-                                <th>Status</th>
+                                <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Stok Awal</th>
+                                <th>Satuan</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($requestBarangs as $rb)
+                            @foreach($barangs as $b)
                             <tr>
-                                <td>{{ $rb->id }}</td>
-                                <td>{{ $rb->nama_divisi }}</td>
-                                <td>{{ $rb->nama_barang }}</td>
-                                <td>{{ $rb->jumlah }}</td>
-                                <td>{{ $rb->status }}</td>
+                                <td>{{ $b->id }}</td>
+                                <td>{{ $b->nama_barang }}</td>
+                                <td>{{ $b->kategori }}</td>
+                                <td>{{ $b->stok_awal }}</td>
+                                <td>{{ $b->satuan }}</td>
                                 <td>
-                                    <a href="{{ route('staffga.requestbarang.edit', $rb->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('staffga.requestbarang.destroy', $rb->id) }}" method="POST" style="display:inline;">
+                                    <a href="{{ route('admin.barang.edit', $b->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.barang.destroy', $b->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Apakah Anda yakin?')" class="btn btn-danger btn-sm">Delete</button>
@@ -49,7 +49,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center">
-                        {{ $requestBarangs->onEachSide(1)->links('pagination::bootstrap-4') }}
+                        {{ $barangs->onEachSide(1)->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
