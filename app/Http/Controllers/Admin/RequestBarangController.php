@@ -30,7 +30,7 @@ class RequestBarangController extends Controller
     {
         $divisi = Divisi::all();
         $barang = Barang::all();
-        return view('staffga.requestbarang.create', compact('divisi','barang'));
+        return view('divisi.requestbarang.create', compact('divisi','barang'));
     }
 
     /**
